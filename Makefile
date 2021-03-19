@@ -205,6 +205,7 @@ ANSIFLAGS =
 
 CFLAGS = -Wall -Wshadow -Wno-deprecated -g  $(ANSIFLAGS) $(GLINC) $(CINC) -I $(INC) -I $(KITINC) -I $(KITSRC) $(GMSECINC) -O0 $(ARCHFLAG) $(GUIFLAG) $(SHADERFLAG) $(CFDFLAG) $(FFTBFLAG) $(GSFCFLAG) $(GMSECFLAG) $(STANDALONEFLAG) $(NOS3FSWFLAG) $(GLFWFLAG)
 
+LIBS += -lfyaml-0.6
 
 ##########################  Rules to link 42  #############################
 

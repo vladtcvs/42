@@ -1,0 +1,190 @@
+---
+Ship:
+    Description: Simple generic S/C
+    Label: S/C
+    Sprite: GenScSpriteAlpha.ppm
+    FSW:
+        FSW: PROTOTYPE_FSW               # Flight Software Identifier. PASSIVE_FSW, PROTOTYPE_FSW, AD_HOC_FSW, SPINNER_FSW, MOMBIAS_FSW, THREE_AXIS_FSW, ISS_FSW, CMG_FSW, THR_FSW, CFS_FSW
+        SampleTime: 0.2                  # FSW Sample Time, s
+
+Orbit_Parameters:
+    Type: FIXED                          # Orbit Prop FIXED, EULER_HILL, ENCKE, or COWELL
+    Position_Point: CM                   # CM (Center of mass) or ORIGIN
+    Position: [0.0, 0.0, 0.0]            # Pos wrt Formation (m), expressed in F
+    Velocity: [0.0, 0.0, 0.0]            # Vel wrt Formation (m/s), expressed in F
+
+Initial_Attitude:
+    Angular_Vel:
+        Frame: Inertial                  # Inertial or LVLH
+        Vel:   [0.6, 0.5, 1.0]           # deg / sec
+    Orientation:
+        Type:       Angles               # Angles or Quaternion
+        Sequence:   213                  # Sequence of axises
+        Frame:      Inertial             # Inertial or LVLH or Formation
+        Angles:     [60.0, 50.0, 40.0]   # deg
+
+Flags:
+    Rotation:           DYN_JOINT        # STEADY, KIN_JOINT or DYN_JOINT
+    PassiveForces:      FALSE
+    ConstraintForces:   FALSE
+    MassPropsRef:       CM               # CM (Center of mass) or JOINT
+    Flex:               FALSE
+    Flex2ndOrder:       FALSE
+    DragCoefficient:    2.0
+
+Bodies:
+    -   Mass:               100.0
+        MomentsOfInertia:   [100.0, 200.0, 300.0]
+        ProductsOfInertia:  [0, 0, 0]               # xy, xz, yz
+        CenterMassPosition: [0, 0, 0]
+        EmbeddedMomentum:   [0, 0, 0]
+        ModelFile:          IonCruiser.obj
+#        ModelFile:          Kepler.obj
+#        ModelFile:          ISS_MainBody.obj
+        FlexFile:           NONE
+
+Joints:
+    -   InnerBody:          0
+        OuterBody:          1
+        InnerBodyVector:    [10, 0, 0]  # m
+        OuterBodyVector:    [-10, 0, 0] # m
+
+        Rotation:
+            DOF:            1
+            Sequence:       213
+            Type:           GIMBAL                  # GIMBAL or SPHERICAL
+            Locked:         [False, False, False]
+            PassiveSpringCoefficients:  [0, 0, 0]   # Nm/rad
+            PassiveDampingCoefficients: [0, 0, 0]   # Nms/rad
+            Angles:         [0, 0, 0]               # deg
+            Vel:            [0, 0, 0]               # deg / sec
+        Translation:
+            DOF:            0
+            Sequence:       123
+            Locked:         [False, False, False]
+            PassiveSpringCoefficients:  [0, 0, 0]   # N/m
+            PassiveDampingCoefficients: [0, 0, 0]   # Ns/m
+            Displacement:   [0, 0, 0]               # m
+            Vel:            [0, 0, 0]               # m / sec
+
+        Bi_2_Gi:
+            Angles:         [0, 0, 0]
+            Sequence:       312
+
+        Go_2_Bo:
+            Angles:         [0, 0, 0]
+            Sequence:       312
+
+Wheels:
+    -   Enabled:                FALSE
+        InitialMomentum:        0               # Nms
+        MaximalTorque:          0.14
+        MaximalMomentum:        50
+        AxisOrientation:        [1, 0, 0]
+        RotorInertia:           0.012
+        StaticImbalance:        0.48            # g*cm
+        DynamicImbalance:       13.7            # g*cm^2
+        FlexNode:               0
+
+MTBs:
+    -   Enabled:                False
+        Saturation:             180             # A*m^2
+        AxisOrientation:        [1, 0, 0]
+        FlexNode:               0
+        
+Thrusters:
+    -   Enabled:                False
+        Body:                   0
+        ThrustForce:            1.0             # N
+        AxisOrientation:        [-1.0, 0, 0]
+        Location:               [1, 1, 1]       # m
+        FlexNode:               0
+
+Gyros:
+    -   Enabled:                False
+        SampleTime:             0.1             # s
+        AxisOrientation:        [1, 0, 0]       # In body frame
+        MaxRate:                1000            # deg / s
+        ScaleFactorError:       100.0           # ppm
+        Quantization:           1.0             # arcsec
+        AngleRandomWalk:        0.07            # deg / (rt*hr)
+        BiasStability:
+            Value:              0.1             # deg / hr
+            Timespan:           1.0             # hr
+        AngleNoise:             0.1             # arcsec RMS
+        InitialBias:            0.1             # deg/hr
+        FlexNode:               1
+
+Magnetometers:
+    -   Enabled:                False
+        SampleTime:             0.1             # s
+        AxisOrientation:        [1, 0, 0]       # In body frame
+        Saturation:             60e-6           # Tesla
+        ScaleFactorError:       0               # ppm
+        Quantization:           1e-6            # Tesla
+        Noise:                  1e-6            # Tesla RMS
+        FlexNode:               1
+
+SunSensors:
+    -   Enabled:                False
+        SampleTime:             0.1             # s
+        Body:                   0
+        AxisOrientation:        [1, 1, 1]
+        HalfConeAngle:          90              # deg
+        ScaleFactor:            1,
+        Quantization:           0.001
+        FlexNodeIndex:          0
+
+FineSunSensors:
+    -   Enabled:                False
+        SampleTime:             0.2
+        Mounting:
+            Angles:             [70, 0, 0]
+            Sequence:           231
+        FOV:
+            X:                  32              # deg
+            Y:                  32              # deg
+        NoiseEquivalentAngle:   0.1             # deg
+        Quantization:           0.5             # deg
+        FlexNode:               0
+
+StarTrackers:
+    -   Enabled:                False
+        SampleTime:             0.25
+        Mounting:
+            Angles:             [-90, 90, 0]
+            Sequence:           321
+        FOV:
+            X:                  8               # deg
+            Y:                  8               # deg
+        ExclusionAngles:
+            Sun:                30              # deg
+            Earth:              10              # deg
+            Moon:               10              # deg
+        NoiseEquivalentAngle:   [2, 2, 20]      # arcsec RMS
+        FlexNodeIndex:          1
+
+GPSs:
+    -   Enabled:                False
+        SampleRate:             0.25            # s
+        PositionNoise:          4               # m RMS
+        VelocityNoise:          0.02            # m/s RMS
+        TimeNoise:              20e-9           # s RMS
+        FlexNode:               0
+
+Accelerometers:
+    -   Enabled:                False
+        SampleTime:             0.1             # s
+        Position:               [0.5, 1.0, 1.5] # m, In B[0]
+        AxisOrientation:        [1, 0, 0]
+        MaxAcceleration:        1.0             # m/s^2
+        ScaleFactorError:       0
+        Quantization:           0.05
+        DV_RandomWalk:          0.0             # m/s/(rt*hr)
+        BiasStability:
+            Value:              0               # m/s^2
+            TimeSpan:           1               # hr
+        DV_Noise:               0               # m/s
+        InitialBias:            0.5             # m/s^2
+        FlexNode:               0
+
