@@ -37,12 +37,12 @@ void read_wheel(struct fy_node *wheel, struct WhlType *whl)
     yaml_read_vector(wheel, "/AxisOrientation", whl->A);
     UNITV(whl->A);
     PerpBasis(whl->A, whl->Uhat, whl->Vhat);
-    fy_node_scanf(wheel, "/MaximalTorque", &whl->Tmax);
-    fy_node_scanf(wheel, "/MaximalMomentum", &whl->Hmax);
-    fy_node_scanf(wheel, "/RotorInertia", &whl->J);
-    fy_node_scanf(wheel, "/StaticImbalance", &whl->Ks);
-    fy_node_scanf(wheel, "/DynamicImbalance", &whl->Kd);
-    fy_node_scanf(wheel, "/FlexNode", &whl->FlexNode);
+    fy_node_scanf(wheel, "/MaximalTorque %lf", &whl->Tmax);
+    fy_node_scanf(wheel, "/MaximalMomentum %lf", &whl->Hmax);
+    fy_node_scanf(wheel, "/RotorInertia %lf", &whl->J);
+    fy_node_scanf(wheel, "/StaticImbalance %lf", &whl->Ks);
+    fy_node_scanf(wheel, "/DynamicImbalance %lf", &whl->Kd);
+    fy_node_scanf(wheel, "/FlexNode %ld", &whl->FlexNode);
     /* Convert from g-cm and g-cm^2 to kg-m and kg-m^2 */
     whl->Ks *= 1.0E-5;
     whl->Kd *= 1.0E-7;
@@ -156,11 +156,11 @@ void read_sun_sensor(struct fy_node *css, struct CssType *CSS)
     }
     CSS->SampleCounter = CSS->MaxCounter;
 
-    fy_node_scanf(css, "Body", &CSS->Body);
+    fy_node_scanf(css, "Body %ld", &CSS->Body);
     yaml_read_vector(css, "AxisOrientation", CSS->Axis);
     UNITV(CSS->Axis);
 
-    fy_node_scanf(css, "/HalfConeAngle", &CSS->FovHalfAng);
+    fy_node_scanf(css, "/HalfConeAngle %lf", &CSS->FovHalfAng);
     CSS->FovHalfAng *= D2R;
     CSS->CosFov = cos(CSS->FovHalfAng);
 
@@ -311,35 +311,18 @@ void read_accelerometer(struct fy_node *acc, struct AccelType *Accel)
     Accel->DV = 0.0;
 }
 
-
-void ConfigSpacecraftYAML(struct SCType *S, double *PosVec, double *VelVec, long *UseCM)
+void InitSpacecraftYAML(struct SCType *S, double *PosVec, double *VelVec, long *UseCM)
 {
     double CBL[3][3],CBF[3][3];
-    long i,j,k,Ia,Ib,Ig,Iw,Im,It,Bi,Bo,Ic,Ist,Ifss;
-    char RateFrame,AttFrame,AttParm;
+    long i,j,k,Ib,Ig,Bi,Bo;
     double wlnb[3];
     double wbn[3],CBN[3][3],qbn[4];
     double Ang1,Ang2,Ang3;
     double pIn[3],pOut[3];
-    double psn[3],vsn[3],psl[3],vsl[3],pfl[3],pcmn[3],pcml[3];
-    double wxr[3],wxrn[3],wxrl[3];
-    double rh[3],vh[3];
-    double BiasTime;
     long Seq;
     long i1,i2,i3;
     struct JointType *G;
     struct BodyType *B;
-    struct OrbitType *O;
-    struct FormationType *Fr;
-    struct DynType *D;
-    struct GyroType *Gyro;
-    struct MagnetometerType *MAG;
-    struct CssType *CSS;
-    struct FssType *FSS;
-    struct StarTrackerType *ST;
-    struct GpsType *GPS;
-    struct AccelType *Accel;
-    long OldNgeom;
 
     char value[256+1];
 
@@ -407,7 +390,6 @@ void ConfigSpacecraftYAML(struct SCType *S, double *PosVec, double *VelVec, long
     }
     else
     {
-        struct fy_node *q = fy_node_by_path(att, "/Orientation/Quaternion", -1, 0);
         yaml_read_quaternion(att, "Quaternion", qbn);
         Q2C(qbn, CBN);
     }

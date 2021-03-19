@@ -17,4 +17,4 @@ void read_star_tracker(struct fy_node *st, struct StarTrackerType *ST);
 void read_gps(struct fy_node *gps, struct GpsType *GPS);
 void read_accelerometer(struct fy_node *acc, struct AccelType *Accel);
 
-void ConfigSpacecraftYAML(struct SCType *S, double *PosVec, double *VelVec, long *UseCM);
+void InitSpacecraftYAML(struct SCType *S, double *PosVec, double *VelVec, long *UseCM);

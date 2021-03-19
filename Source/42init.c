@@ -1343,9 +1343,9 @@ void InitSpacecraft(struct SCType *S)
 
       size_t lenstr = strlen(S->FileName);
       if (lenstr > 4 && !strncmp(S->FileName + lenstr-4, "yaml", 4))
-          ConfigSpacecraftYAML(S, PosVec, VelVec, &UseCM);
+          InitSpacecraftYAML(S, PosVec, VelVec, &UseCM);
       else
-          ConfigSpacecraftTxt(S, PosVec, VelVec, &UseCM);
+          InitSpacecraftTxt(S, PosVec, VelVec, &UseCM);
 
       /* .. Initialize some Orbit and Formation variables */
       O = &Orb[S->RefOrb];

@@ -25,7 +25,7 @@
 */
 
 /**********************************************************************/
-void ConfigSpacecraftTxt(struct SCType *S, double *PosVec, double *VelVec, long *UseCM)
+void InitSpacecraftTxt(struct SCType *S, double *PosVec, double *VelVec, long *UseCM)
 {
       FILE *infile;
       char junk[120],newline,response[120];
@@ -37,18 +37,12 @@ void ConfigSpacecraftTxt(struct SCType *S, double *PosVec, double *VelVec, long 
       double wbn[3],CBN[3][3],qbn[4];
       double Ang1,Ang2,Ang3;
       double pIn[3],pOut[3];
-      double psn[3],vsn[3],psl[3],vsl[3],pfl[3],pcmn[3],pcml[3];
-      double wxr[3],wxrn[3],wxrl[3];
-      double rh[3],vh[3];
       double BiasTime;
       long Seq;
       long i1,i2,i3;
       
       struct JointType *G;
       struct BodyType *B;
-      struct OrbitType *O;
-      struct FormationType *Fr;
-      struct DynType *D;
       struct GyroType *Gyro;
       struct MagnetometerType *MAG;
       struct CssType *CSS;
@@ -56,7 +50,6 @@ void ConfigSpacecraftTxt(struct SCType *S, double *PosVec, double *VelVec, long 
       struct StarTrackerType *ST;
       struct GpsType *GPS;
       struct AccelType *Accel;
-      long OldNgeom;
 
       infile=FileOpen(InOutPath,S->FileName,"r");
       fscanf(infile,"%[^\n] %[\n]",junk,&newline);
