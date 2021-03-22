@@ -11,7 +11,7 @@ void yaml_read_vector(struct fy_node *node, const char *field, double *v)
     for (i = 0; i < 3; i++)
     {
         size_t value_len;
-        struct fy_node_t *item = fy_node_sequence_get_by_index(node, i);
+        struct fy_node *item = fy_node_sequence_get_by_index(node, i);
         const char *value = fy_node_get_scalar(item, &value_len);
         sscanf(value, "%lf", &v[i]);
     }
@@ -24,7 +24,7 @@ void yaml_read_quaternion(struct fy_node *node, const char *field, double *v)
     for (i = 0; i < 4; i++)
     {
         size_t value_len;
-        struct fy_node_t *item = fy_node_sequence_get_by_index(node, i);
+        struct fy_node *item = fy_node_sequence_get_by_index(node, i);
         const char *value = fy_node_get_scalar(item, &value_len);
         sscanf(value, "%lf", &v[i]);
     }
@@ -34,7 +34,7 @@ void yaml_read_angles(struct fy_node *node, const char *field, double *a1, doubl
 {
     node = fy_node_by_path(node, field, -1, 0);
     size_t value_len;
-    struct fy_node_t *item;
+    struct fy_node *item;
     const char *value;
 
     item = fy_node_sequence_get_by_index(node, 0);

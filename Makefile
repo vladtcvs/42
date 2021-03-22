@@ -191,9 +191,11 @@ $(OBJ)42init.o $(OBJ)42ipc.o $(OBJ)42perturb.o $(OBJ)42report.o \
 $(OBJ)42sensors.o \
 $(OBJ)42nos3.o	\
 $(OBJ)42config_42config.o            \
+$(OBJ)42config_YAML_42sim.o			 \
 $(OBJ)42config_YAML_42sc.o           \
 $(OBJ)42config_YAML_42orbit.o        \
 $(OBJ)42config_YAML_yaml_functions.o \
+$(OBJ)42config_txt_42sim.o			 \
 $(OBJ)42config_txt_42sc.o			 \
 $(OBJ)42config_txt_42orbit.o
 
@@ -259,6 +261,9 @@ $(OBJ)42init.o      : $(SRC)42init.c $(INC)42.h
 $(OBJ)42config_42config.o : $(SRC)42config/42config.c $(INC)42.h
 	$(CC) $(CFLAGS) -c $(SRC)42config/42config.c -o $(OBJ)42config_42config.o
 
+$(OBJ)42config_YAML_42sim.o : $(SRC)42config/YAML/42sim.c $(INC)42.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
 $(OBJ)42config_YAML_42sc.o : $(SRC)42config/YAML/42sc.c $(INC)42.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -266,6 +271,9 @@ $(OBJ)42config_YAML_42orbit.o : $(SRC)42config/YAML/42orbit.c $(INC)42.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ)42config_YAML_yaml_functions.o : $(SRC)42config/YAML/yaml_functions.c $(INC)42.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ)42config_txt_42sim.o : $(SRC)42config/txt/42sim.c $(INC)42.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ)42config_txt_42sc.o : $(SRC)42config/txt/42sc.c $(INC)42.h

@@ -26,7 +26,7 @@ Environment:
     Sec: 00.00
     Leap: 37.0             #  Leap Seconds (sec). Difference between atomic time and UTC
 
-  Solar_Activity:
+  Atmosphere:
     F10.7: USER            #  F10.7, Ap (USER, NOMINAL or TWOSIGMA)
     User_F10.7:
       Flux:             230.0     #  USER-provided F10.7
@@ -71,7 +71,7 @@ Environment:
 
 Celestial_Bodies:
   Ephemeride_Option: MEAN     # MEAN or DE430
-  Asteroids:    FALSE         # Asteroids and Comets
+  Minor_Bodies:    FALSE      # Asteroids and Comets
   Planets:
     MERCURY:    TRUE
     VENUS:      TRUE
@@ -84,9 +84,9 @@ Celestial_Bodies:
     PLUTO:      TRUE
 
 Lagrange_Point_Systems:
-  EARTH_LUNA:  TRUE
-  SUN_EARTH:   TRUE
-  SUN_JUPITER: TRUE
+  EARTH-LUNA:  TRUE
+  SUN-EARTH:   FALSE
+  SUN-JUPITER: FALSE
 
 Ground_Stations:
 
