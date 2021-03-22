@@ -192,8 +192,10 @@ $(OBJ)42sensors.o \
 $(OBJ)42nos3.o	\
 $(OBJ)42config_42config.o            \
 $(OBJ)42config_YAML_42sc.o           \
+$(OBJ)42config_YAML_42orbit.o        \
 $(OBJ)42config_YAML_yaml_functions.o \
-$(OBJ)42config_txt_42sc.o			 
+$(OBJ)42config_txt_42sc.o			 \
+$(OBJ)42config_txt_42orbit.o
 
 KITOBJ = $(OBJ)dcmkit.o $(OBJ)envkit.o $(OBJ)fswkit.o $(OBJ)geomkit.o \
 $(OBJ)iokit.o $(OBJ)mathkit.o $(OBJ)nrlmsise00kit.o $(OBJ)msis86kit.o \
@@ -258,13 +260,19 @@ $(OBJ)42config_42config.o : $(SRC)42config/42config.c $(INC)42.h
 	$(CC) $(CFLAGS) -c $(SRC)42config/42config.c -o $(OBJ)42config_42config.o
 
 $(OBJ)42config_YAML_42sc.o : $(SRC)42config/YAML/42sc.c $(INC)42.h
-	$(CC) $(CFLAGS) -c $(SRC)42config/YAML/42sc.c -o $(OBJ)42config_YAML_42sc.o
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ)42config_YAML_42orbit.o : $(SRC)42config/YAML/42orbit.c $(INC)42.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ)42config_YAML_yaml_functions.o : $(SRC)42config/YAML/yaml_functions.c $(INC)42.h
-	$(CC) $(CFLAGS) -c $(SRC)42config/YAML/yaml_functions.c -o $(OBJ)42config_YAML_yaml_functions.o
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ)42config_txt_42sc.o : $(SRC)42config/txt/42sc.c $(INC)42.h
-	$(CC) $(CFLAGS) -c $(SRC)42config/txt/42sc.c -o $(OBJ)42config_txt_42sc.o
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ)42config_txt_42orbit.o : $(SRC)42config/txt/42orbit.c $(INC)42.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ)42ipc.o       : $(SRC)42ipc.c $(INC)42.h
 	$(CC) $(CFLAGS) -c $(SRC)42ipc.c -o $(OBJ)42ipc.o

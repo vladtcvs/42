@@ -1,0 +1,78 @@
+---
+Orbit:
+    Description: Eccentric Earth Orbit
+    Type:        CENTRAL        # ZERO, FLIGHT, CENTRAL, THREE_BODY
+
+    Zero_Orbit_Parameters:
+        World:  MINORBODY_2
+        UsePolyhedronGravity: FALSE
+
+    Flight_Orbit_Parameters:
+        RegionNumber: 0
+        UsePolyhedronGravity: FALSE
+
+    Central_Orbit_Parameters:
+        Central_Body:   LUNA
+        J2_Secular_Orbit_Drift: FALSE
+        Orbit_Parameters_Type:  KEP     # KEP, RV, FILE
+
+        Keplerian_Orbit_Parameters:
+            Type:   PA                  # PA (Periapsis/Apoapsis) or AE (Periapsis/ecc)
+            PA:
+                Periapsis:  100         # km
+                Apoapsis:   100         # km
+            AE:
+                Periapsis:  400         # km
+                Eccentricity:       0
+            Inclination:            52      # deg
+            Right_Ascension:        180     # deg
+            Argument_of_Periapsis:  0       # deg
+            True_Anomaly:           0       # deg
+
+        Position_Velocity_Orbit_Parameters:
+#        Position:   [6000, 0, 0]    # km
+            Position:   [7000, 0, 0]    # km
+            Velocity:   [2, 0, 0]       # km/s
+
+        File_Orbit_Parameters:
+            Filename:   TRV.txt
+            Format:     TRV             # TRV or TLE
+            Label:      ORB_ID
+
+    Three_Body_Orbit_Parameters:
+        Lagrange_System: SUNEARTH
+        Propagation:   LAGDOF_MODES         # LAGDOF_MODES or LAGDOF_COWELL or LAGDOF_SPLINE
+        Init:   MODES                       # MODES, XYZ, FILE
+
+        Initial_Modes:
+            Libration_Point:    L2          # L1, L2, L3, L4, L5
+            XY_Semi_major_axis: 800000.0    # km
+            XY_Phase:   45.0                # deg, CCW from -Y
+            Sense:              CW          # CW, CCW from +Z
+            Z_Semi_axis:        400000.0    # km
+            Z_Phase:    60          # deg
+        
+            L45_Options:
+                Second_XY_Mode_Semi_major_Axis: 0  # km
+                Second_XY_Phase:   0        # deg
+                Sense:  CW                  # CW, CCW, from +Z
+
+        Initial_XYZ:
+            Position:   [1.05,  0.5,  0.0]  # non dimensional
+            Vel:        [0, 0, 0]           # non dimensional
+    
+        Initial_File:
+            Libration_Point:    L2          # L1, L2, L3, L4, L5
+            Filename:           TRV.txt
+            Formal:             TRV         # TLE, TRV or SPLINE
+            Label:              ORB_ID
+
+Formation:
+    Orientation:
+        Frame:  Inertial    # Inertial or LVLH
+        Angles: [0, 0, 0]
+        Sequence: 123
+    Position:
+        Frame:  Inertial    # Inertial or LVLH
+        Position: [0, 0, 0]
+

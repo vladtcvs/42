@@ -226,6 +226,75 @@ long DecodeString(char *s)
       }
 }
 
+long LoadTRVfromFile(const char *Path, const char *TrvFileName,
+                     const char *ElemLabel, double Time, struct OrbitType *O)
+{
+      FILE *infile;
+      char line[80],response1[80],response2[80];
+      char Label[25];
+      long i,Nchar;
+      long Success = 0;
+      double EpochJD,R[3],V[3];
+      long EpochYear,EpochMonth,EpochDay,EpochHour,EpochMinute;
+      double EpochSecond;
+
+      infile=FileOpen(Path,TrvFileName,"r");
+
+      Nchar = strlen(ElemLabel);
+      /* Pad label to 24 characters to assure unique match */
+      while(!feof(infile) && !Success) {
+         fgets(line,79,infile);
+         if (sscanf(line,"\"%[^\"]\"",Label) == 1) {
+            if (!strncmp(Label,ElemLabel,Nchar)) {
+               Success = 1;
+               fscanf(infile,"%s %s %ld-%ld-%ld %ld:%ld:%lf\n",
+                  response1,response2,
+                  &EpochYear,&EpochMonth,&EpochDay,
+                  &EpochHour,&EpochMinute,&EpochSecond);
+               fscanf(infile,"%lf %lf %lf\n",&R[0],&R[1],&R[2]);
+               fscanf(infile,"%lf %lf %lf\n",&V[0],&V[1],&V[2]);
+            }
+         }
+      }
+      fclose(infile);
+
+      if (Success) {
+         /* Epoch is in UTC */
+         EpochJD = DateToJD(EpochYear,EpochMonth,EpochDay,
+            EpochHour,EpochMinute,EpochSecond);
+         O->Epoch = JDToTime(EpochJD);
+         O->Epoch += DynTime-CivilTime;
+         O->Regime = DecodeString(response1);
+         if (O->Regime == ORB_CENTRAL) {
+            O->World = DecodeString(response2);
+            O->mu = World[O->World].mu;
+            RV2Eph(O->Epoch,O->mu,R,V,&O->SMA,&O->ecc,&O->inc,&O->RAAN,
+               &O->ArgP,&O->anom,&O->tp,&O->SLR,&O->alpha,&O->rmin,
+               &O->MeanMotion,&O->Period);
+            Eph2RV(O->mu,O->SLR,O->ecc,O->inc,O->RAAN,O->ArgP,Time-O->Epoch,
+               O->PosN,O->VelN,&O->anom);
+         }
+         else {
+            O->Sys = DecodeString(response2);
+            O->Body1 = LagSys[O->Sys].Body1;
+            O->Body2 = LagSys[O->Sys].Body2;
+            O->mu1 = World[O->Body1].mu;
+            O->mu2 = World[O->Body2].mu;
+            O->World = O->Body1;
+            O->mu = O->mu1;
+            for(i=0;i<3;i++) {
+               O->PosN[i] = R[i];
+               O->VelN[i] = V[i];
+            }
+            /* RV2LagModes(O->Epoch,&LagSys[O->Sys],O); */
+            R2StableLagMode(O->Epoch,&LagSys[O->Sys],O);
+            LagModes2RV(Time,&LagSys[O->Sys],O,O->PosN,O->VelN);
+         }
+      }
+
+      return(Success);
+}
+
 /* #ifdef __cplusplus
 ** }
 ** #endif
