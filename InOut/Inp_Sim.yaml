@@ -1,0 +1,121 @@
+Simulation:
+  Time_Mode: FAST               #  Time Mode (FAST, REAL, EXTERNAL, or NOS3)
+  Duration: 10000.0             # sec
+  Step: 0.1                     # sec
+  File_Output_Interval: 1.0     # sec
+  GUI: TRUE
+  Script: Inp_Cmd.txt
+
+Orbits:
+  - Enabled:  TRUE
+    Filename: Orb_Ellipse.yaml
+
+Spacecrafts:
+  - Enabled: TRUE
+    Orbit: 0
+    Filename: SC_Simple.yaml
+
+Environment:
+
+  Datetime:
+    Year: 2021
+    Month: 03
+    Day: 22
+    Hr: 12
+    Min: 00
+    Sec: 00.00
+    Leap: 37.0             #  Leap Seconds (sec). Difference between atomic time and UTC
+
+  Solar_Activity:
+    F10.7: USER            #  F10.7, Ap (USER, NOMINAL or TWOSIGMA)
+    User_F10.7:
+      Flux:             230.0     #  USER-provided F10.7
+      GeomagneticIndex: 100.0     #  USER-provided Ap 
+
+  Magnetic_Field:
+    Model: IGRF            #  Magfield (NONE,DIPOLE,IGRF)
+    IGRF:
+      Degree: 8            # <=10
+      Order:  8            # <=10
+
+  Gravity_Model: # N,M <= 18
+    EARTH:
+      N : 8
+      M : 8
+    MARS:
+      N : 2
+      M : 0
+    LUNA:
+      N : 2
+      M : 0
+
+  Aerodynamics:
+    Forces: FALSE
+    Shadows: FALSE
+  
+  Gravity_Gradient:
+    Forces: FALSE
+
+  Solar_Pressure:
+    Forces: FALSE
+    Shadows: FALSE
+
+  Gravity_Perturbations: FALSE
+  Passive_Joint_Forces:  FALSE
+  Thruster_Plume_Forces: FALSE
+  RWA_Imbalance_Forces:  FALSE
+  Contact_Forces:        FALSE
+  CFD_Slosh_Forces:      FALSE
+
+  Log_Enviromental_Forces:  FALSE
+
+Celestial_Bodies:
+  Ephemeride_Option: MEAN     # MEAN or DE430
+  Asteroids:    FALSE         # Asteroids and Comets
+  Planets:
+    MERCURY:    TRUE
+    VENUS:      TRUE
+    EARTH:      TRUE
+    MARS:       TRUE
+    JUPITER:    TRUE
+    SATURN:     TRUE
+    URANUS:     TRUE
+    NEPTUNE:    TRUE
+    PLUTO:      TRUE
+
+Lagrange_Point_Systems:
+  EARTH_LUNA:  TRUE
+  SUN_EARTH:   TRUE
+  SUN_JUPITER: TRUE
+
+Ground_Stations:
+
+  GSFC:
+    Enabled: TRUE
+    Body:    EARTH
+    Lon:     -77.0
+    Lat:     37.0
+
+  South Point:
+    Enabled: TRUE
+    Body:    EARTH
+    Lon:     -155.6
+    Lat:     19.0
+
+  Dongara:
+    Enabled:  TRUE
+    Body:     EARTH
+    Lon:  115.4
+    Lat: -29.0
+
+  Santiago:
+    Enabled:  TRUE
+    Body:     EARTH
+    Lon:      -71.0
+    Lat:      -33.0
+
+  Moon Base Alpha:
+    Enabled:  TRUE
+    Body:     LUNA
+    Lon:      45.0
+    Lat:      45.0

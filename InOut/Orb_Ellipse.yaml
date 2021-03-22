@@ -12,27 +12,27 @@ Orbit:
         UsePolyhedronGravity: FALSE
 
     Central_Orbit_Parameters:
-        Central_Body:   LUNA
+        Central_Body:   EARTH
         J2_Secular_Orbit_Drift: FALSE
         Orbit_Parameters_Type:  KEP     # KEP, RV, FILE
 
         Keplerian_Orbit_Parameters:
             Type:   PA                  # PA (Periapsis/Apoapsis) or AE (Periapsis/ecc)
             PA:
-                Periapsis:  100         # km
-                Apoapsis:   100         # km
+                Periapsis:  240         # km
+                Apoapsis:   240         # km
             AE:
                 Periapsis:  400         # km
                 Eccentricity:       0
             Inclination:            52      # deg
-            Right_Ascension:        180     # deg
+            Right_Ascension:        80     # deg
             Argument_of_Periapsis:  0       # deg
             True_Anomaly:           0       # deg
 
         Position_Velocity_Orbit_Parameters:
 #        Position:   [6000, 0, 0]    # km
             Position:   [7000, 0, 0]    # km
-            Velocity:   [2, 0, 0]       # km/s
+            Velocity:   [8, 0, 0]       # km/s
 
         File_Orbit_Parameters:
             Filename:   TRV.txt
